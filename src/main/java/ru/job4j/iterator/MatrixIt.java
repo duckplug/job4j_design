@@ -38,7 +38,6 @@ public class MatrixIt implements Iterator<Integer> {
                 if (column == 0) {
                     row += 1;
                 }
-
                 return rsl;
             }
         }
