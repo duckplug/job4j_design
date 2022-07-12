@@ -19,16 +19,20 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "ареал обитания='" + habitat + '\'' +
-                ", популяция=" + abundance +
-                '}';
+        return "Animal{"
+                + "ареал обитания='" + habitat + '\''
+                + ", популяция=" + abundance
+                + '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Animal)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Animal)) {
+            return false;
+        }
         Animal animal = (Animal) o;
         return Objects.equals(habitat, animal.habitat) && Objects.equals(abundance, animal.abundance);
     }

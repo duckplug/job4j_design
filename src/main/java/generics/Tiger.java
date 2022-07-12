@@ -18,15 +18,19 @@ public class Tiger extends Predator {
 
     @Override
     public String toString() {
-        return "Tiger{" +
-                "Вид ='" + species + '\'' +
-                '}';
+        return "Tiger{"
+                + "Вид ='" + species + '\''
+                + '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Tiger)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Tiger)) {
+            return false;
+        }
         Tiger tiger = (Tiger) o;
         return Objects.equals(species, tiger.species);
     }
