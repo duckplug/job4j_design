@@ -39,7 +39,7 @@ public class RoleStoreTest {
         store.add(new Role("1", "Write"));
         store.replace("1", new Role("1", "Review"));
         Role rsl = store.findById("1");
-        assertThat(rsl.getRole(), is ("Review"));
+        assertThat(rsl.getRole(), is("Review"));
     }
 
     @Test
