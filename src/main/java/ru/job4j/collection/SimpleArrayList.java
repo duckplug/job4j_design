@@ -54,8 +54,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     public void increaseArrayLength() {
         if (container.length == 0) {
             container = Arrays.copyOf(container, 10);
+        } else {
+            container = Arrays.copyOf(container, container.length * 2);
         }
-        container = Arrays.copyOf(container, container.length * 2);
     }
 
     @Override
