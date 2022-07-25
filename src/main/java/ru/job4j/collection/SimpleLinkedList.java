@@ -15,6 +15,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
         last = newNode;
         if (l == null) {
             first = newNode;
+            size++;
         } else {
             l.next = newNode;
             size++;
