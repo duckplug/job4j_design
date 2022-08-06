@@ -1,6 +1,5 @@
 package ru.job4j.iterator;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +35,7 @@ class ListUtilsTest {
 
     @Test
     void whenRemoveIf() {
-        ListUtils.removeIf(input, x -> x%3 == 0);
+        ListUtils.removeIf(input, x -> x % 3 == 0);
         assertThat(input).containsSequence(1);
     }
 
