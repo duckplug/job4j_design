@@ -17,8 +17,11 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name, children, birthday);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
     }
 
     public static void main(String[] args) {
@@ -37,6 +40,8 @@ public class User {
         System.out.printf("user1 - хэшкод: %s, хэш: %s, бакет: %s", hashcode1, hash1, bucket1);
         System.out.println();
         System.out.printf("user2 - хэшкод: %s, хэш: %s, бакет: %s", hashcode2, hash2, bucket2);
+        System.out.println();
+        System.out.println(map.size());
     }
 }
 
