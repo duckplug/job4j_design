@@ -15,16 +15,7 @@ public class User {
         this.children = children;
         this.birthday = birthday;
     }
-/**
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
-    }
 
- */
     @Override
     public int hashCode() {
         return Objects.hash(name, children, birthday);
