@@ -150,4 +150,70 @@ class SimpleMapTest {
         assertThat(map.put(0, "0")).isTrue();
         assertThat(map.get(null)).isNull();
     }
+
+    @Test
+    void whenCheckMapExtendUp2Times() {
+        for (int i = 5; i < 26; i++) {
+            map.put(i, Integer.toString(i));
+        }
+        assertThat(map).hasSize(25);
+    }
+
+    @Test
+    void whenPutRemoveExpends() {
+        for (int i = 5; i < 26; i++) {
+            map.put(i, Integer.toString(i));
+        }
+        for (int i = 25; i >= 5; i--) {
+            map.remove(i);
+        }
+        assertThat(map).hasSize(4);
+    }
+
+    @Test
+    void whenCheckPutDoubleNull() {
+        map.put(null, "null");
+        map.put(null, "duplicate");
+        assertThat(map.get(null)).isEqualTo("null");
+    }
+
+    @Test
+    void whenCheckNullValue() {
+        assertThat(map.put(null, null)).isTrue();
+        assertThat(map.put(null, "null")).isFalse();
+    }
+
+    @Test
+    void whenCheckGetNull() {
+        assertThat(map.get(null)).isNull();
+        assertThat(map.get(5)).isNull();
+        assertThat(map.get(100)).isNull();
+    }
+
+    @Test
+    void whenGetAfterExtends() {
+        for (int i = 5; i < 26; i++) {
+            map.put(i, Integer.toString(i));
+        }
+        assertThat(map.get(25)).isEqualTo("25");
+        assertThat(map.get(26)).isNull();
+    }
+
+    @Test
+    void whenRemoveNull() {
+        assertThat(map.remove(null)).isFalse();
+    }
+
+    @Test
+    void whenRemoveThenGet() {
+        assertThat(map.remove(1)).isTrue();
+        assertThat(map.get(1)).isNull();
+    }
+
+    @Test
+    void whenRemoveFalseKeyThenPutThenTrue() {
+        assertThat(map.remove(10)).isFalse();
+        map.put(5,"5");
+        assertThat(map.remove(5)).isTrue();
+    }
 }
