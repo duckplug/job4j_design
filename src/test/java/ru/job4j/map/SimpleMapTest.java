@@ -213,7 +213,7 @@ class SimpleMapTest {
     @Test
     void whenRemoveFalseKeyThenPutThenTrue() {
         assertThat(map.remove(10)).isFalse();
-        map.put(5,"5");
+        map.put(5, "5");
         assertThat(map.remove(5)).isTrue();
     }
 }
