@@ -13,7 +13,7 @@ public class LogFilter {
 
             for (String line = in.readLine(); line != null; line = in.readLine()) {
                 String[] str = line.split(" ");
-                if (str[str.length - 2].equals("404") && !str[str.length - 1].equals("-")) {
+                if ("404".equals(str[str.length - 2])) {
 
                     rsl.add(line);
                 }
