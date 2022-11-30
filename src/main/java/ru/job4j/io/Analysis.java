@@ -19,12 +19,15 @@ public class Analysis {
                                     new FileOutputStream(target)
                             ))) {
                         out.println(str[1] + ";");
-
+                        if (i < 400) {
+                            err = false;
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
