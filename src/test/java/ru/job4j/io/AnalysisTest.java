@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AnalysisTest {
     @Test
-    void whenOneTimeError (@TempDir Path tempDir) throws IOException {
+    void whenOneTimeError(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("source.txt").toFile();
-        try(PrintWriter out = new PrintWriter(source)) {
+        try (PrintWriter out = new PrintWriter(source)) {
             out.println("200 10:56:01");
             out.println("400 10:57:01");
             out.println("300 10:58:01");
@@ -28,9 +28,9 @@ class AnalysisTest {
     }
 
     @Test
-    void whenNoError (@TempDir Path tempDir) throws IOException {
+    void whenNoError(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("source.txt").toFile();
-        try(PrintWriter out = new PrintWriter(source)) {
+        try (PrintWriter out = new PrintWriter(source)) {
             out.println("200 10:56:01");
             out.println("200 10:58:01");
             out.println("300 10:58:01");
@@ -46,17 +46,17 @@ class AnalysisTest {
     }
 
     @Test
-    void whenCoupleTimesError (@TempDir Path tempDir) throws IOException {
+    void whenCoupleTimesError(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("source.txt").toFile();
         File testFile = tempDir.resolve("test.txt").toFile();
-        try(PrintWriter out = new PrintWriter(source)) {
+        try (PrintWriter out = new PrintWriter(source)) {
             out.println("200 10:56:01");
             out.println("400 10:57:01");
             out.println("300 10:58:01");
             out.println("500 10:59:01");
             out.println("300 11:00:01");
         }
-        try(PrintWriter test = new PrintWriter(testFile)) {
+        try (PrintWriter test = new PrintWriter(testFile)) {
             test.println("10:57:01;10:58:01;");
             test.println("10:59:01;11:00:01;");
         }
