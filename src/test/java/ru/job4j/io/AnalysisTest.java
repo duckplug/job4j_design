@@ -48,7 +48,7 @@ class AnalysisTest {
     @Test
     void whenCoupleTimesError(@TempDir Path tempDir) throws IOException {
         File source = tempDir.resolve("source.txt").toFile();
-        File testFile = tempDir.resolve("test.txt").toFile();
+        File target = tempDir.resolve("target.txt").toFile();
         try (PrintWriter out = new PrintWriter(source)) {
             out.println("200 10:56:01");
             out.println("400 10:57:01");
@@ -56,23 +56,12 @@ class AnalysisTest {
             out.println("500 10:59:01");
             out.println("300 11:00:01");
         }
-        try (PrintWriter test = new PrintWriter(testFile)) {
-            test.println("10:57:01;10:58:01;");
-            test.println("10:59:01;11:00:01;");
-        }
-        File target = tempDir.resolve("target.txt").toFile();
         Analysis checkServer = new Analysis();
         checkServer.unavailable(source.getPath(), target.getPath());
         StringBuilder rslTarget = new StringBuilder();
-        StringBuilder testTarget = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new FileReader(target));
-             BufferedReader out = new BufferedReader(new FileReader(testFile))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(rslTarget::append);
-            out.lines().forEach(testTarget::append);
         }
-        assertThat(testTarget.toString()).isEqualTo(rslTarget.toString());
-
+        assertThat("10:57:01;10:58:01;10:59:01;11:00:01;").isEqualTo(rslTarget.toString());
     }
-
-
 }
