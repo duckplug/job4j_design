@@ -11,21 +11,18 @@ import java.util.function.Predicate;
 
 public class SearchFiles extends SimpleFileVisitor<Path> {
 
-    List<Path> list = new ArrayList<>();
-    Predicate<Path> condition;
+    private List<Path> list = new ArrayList<>();
+    private Predicate<Path> condition;
 
     public SearchFiles(Predicate<Path> condition) {
         this.condition = condition;
     }
 
     @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-            throws IOException {
-
+    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (condition.test(file)) {
             list.add(file);
         }
-
         return FileVisitResult.CONTINUE;
     }
 
