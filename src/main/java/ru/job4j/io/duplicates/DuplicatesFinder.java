@@ -12,8 +12,14 @@ public class DuplicatesFinder {
     private void  showDuplicates() throws IOException {
         DuplicatesVisitor dv = new DuplicatesVisitor();
         Files.walkFileTree(Path.of("./"), dv);
-        for (String str:dv.getDuplicates().keySet()) {
-            System.out.printf("%s - %s \n", dv.getDuplicates().get(str).getName(), str);
+        Set<FileProperty> set =  dv.duplicatesMap.keySet();
+        for (FileProperty fp: set) {
+            if (dv.duplicatesMap.get(fp).size() > 1) {
+                System.out.println(fp.getName() + ":");
+                for (Path path:dv.duplicatesMap.get(fp)) {
+                    System.out.println(path);
+                }
+            }
         }
     }
 

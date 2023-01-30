@@ -5,29 +5,25 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    public Map<FileProperty, Path> map = new HashMap<>();
-    public Map<String, FileProperty> duplicates = new HashMap<>();
+    public Map<FileProperty, List<Path>> duplicatesMap = new HashMap<>();
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         FileProperty fileProp = new FileProperty(file.toFile().length(), file.toFile().getName());
-        if (!map.containsKey(fileProp)) {
-            map.put(fileProp, file);
+        if (!duplicatesMap.containsKey(fileProp)) {
+            List<Path> list = new ArrayList<>();
+            list.add(file);
+            duplicatesMap.put(fileProp, list);
         } else {
-            duplicates.put(file.toFile().getAbsolutePath(), fileProp);
-            duplicates.put(map.get(fileProp).toString(), fileProp);
-            map.remove(fileProp);
+            duplicatesMap.get(fileProp).add(file);
         }
         return FileVisitResult.CONTINUE;
-    }
-
-    public Map<String, FileProperty> getDuplicates() {
-        return duplicates;
     }
 }
