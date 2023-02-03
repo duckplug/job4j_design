@@ -9,14 +9,22 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get("C:\\projects\\job4j_design");
-        search(start, p -> p.toFile().getName().endsWith(".properties")).forEach(System.out::println);
+        if (!validationParameters(args[0], args[1])) {
+            throw new IllegalArgumentException("Введены неверные аргументы");
+        }
+            Path start = Paths.get(args[0]);
+            search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException  {
         SearchFiles searcher = new SearchFiles(condition);
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
+    }
+
+    public static boolean validationParameters(String path, String str) {
+        return path.startsWith("D:\\JP") && str.startsWith(".");
     }
 }
 
