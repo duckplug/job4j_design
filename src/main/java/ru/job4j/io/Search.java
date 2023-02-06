@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,11 +10,12 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        if (args.length != 2 && !validationParameters(args)) {
-            throw new IllegalArgumentException("Введены неверные аргументы");
+        if (args.length != 2) {
+            throw new IllegalArgumentException("нарушено число параметров");
         }
-            Path start = Paths.get(args[0]);
-            search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+        validationParameters(args);
+        Path start = Paths.get(args[0]);
+        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException  {
@@ -22,8 +24,18 @@ public class Search {
         return searcher.getPaths();
     }
 
-    private static boolean validationParameters(String[] args) {
-        return args[0].startsWith("D:\\") && (args[1].startsWith(".") && args[1].length() > 1);
+    private static void validationParameters(String[] args) {
+        if (!(args[1].startsWith(".") && args[1].length() > 1)) {
+            throw new IllegalArgumentException("ошибка расширения файла");
+        }
+        Path path = Path.of("D:\\JP\\job4j_design");
+        if (!path.toFile().exists()) {
+            throw new IllegalArgumentException("путь до каталога не существует");
+        }
+
+        if (!args[0].equals(path.toString())) {
+            throw new IllegalArgumentException("указан неверный путь до директории");
+        }
     }
 }
 
