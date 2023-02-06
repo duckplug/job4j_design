@@ -30,11 +30,10 @@ public class Search {
         }
         Path path = Path.of("D:\\JP\\job4j_design");
         if (!path.toFile().exists()) {
-            throw new IllegalArgumentException("путь до каталога не существует");
+            throw new IllegalArgumentException("путь до каталога не найден");
         }
-
-        if (!args[0].equals(path.toString())) {
-            throw new IllegalArgumentException("указан неверный путь до директории");
+        if (!path.toFile().isDirectory()) {
+            throw new IllegalArgumentException("каталог не существует");
         }
     }
 }
