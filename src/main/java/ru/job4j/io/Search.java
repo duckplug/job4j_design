@@ -9,12 +9,11 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        if (!validationParameters(args[0], args[1])) {
+        if (args.length != 2 && !validationParameters(args)) {
             throw new IllegalArgumentException("Введены неверные аргументы");
         }
             Path start = Paths.get(args[0]);
             search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
-
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException  {
@@ -23,8 +22,8 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static boolean validationParameters(String path, String str) {
-        return path.startsWith("D:\\JP") && str.startsWith(".");
+    private static boolean validationParameters(String[] args) {
+        return args[0].startsWith("D:\\") && (args[1].startsWith(".") && args[1].length() > 1);
     }
 }
 
