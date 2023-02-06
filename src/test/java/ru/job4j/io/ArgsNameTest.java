@@ -1,6 +1,8 @@
-package ru.job4j.io.duplicates;
+package ru.job4j.io;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.io.ArgsName;
+
 import static org.assertj.core.api.Assertions.*;
 
 class ArgsNameTest {
