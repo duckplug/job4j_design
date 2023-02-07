@@ -26,14 +26,14 @@ public class Search {
 
     private static void validationParameters(String[] args) {
         if (!(args[1].startsWith(".") && args[1].length() > 1)) {
-            throw new IllegalArgumentException("ошибка расширения файла");
+            throw new IllegalArgumentException("ошибка расширения файла - " + args[1]);
         }
-        Path path = Path.of("D:\\JP\\job4j_design");
+        Path path = Path.of(args[0]);
         if (!path.toFile().exists()) {
-            throw new IllegalArgumentException("путь до каталога не найден");
+            throw new IllegalArgumentException("путь до каталога - " + args[0] + " не найден");
         }
         if (!path.toFile().isDirectory()) {
-            throw new IllegalArgumentException("каталог не существует");
+            throw new IllegalArgumentException("каталог - " + args[0] + " не существует");
         }
     }
 }
