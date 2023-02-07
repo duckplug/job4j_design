@@ -16,18 +16,16 @@ public class ArgsName {
 
     private void parse(String[] args) {
         for (String pare : args) {
-            checkValidation(pare);
             int keyStart = pare.indexOf("-");
             int keyEnd = pare.indexOf("=");
+            checkValidation(pare, keyStart, keyEnd);
             String key = pare.substring(keyStart + 1, keyEnd);
             String value = pare.substring(keyEnd + 1);
             values.put(key, value);
         }
     }
 
-    private void checkValidation(String arg) {
-        int keyStart =  arg.indexOf("-");
-        int keyEnd = arg.indexOf("=");
+    private void checkValidation(String arg, int keyStart, int keyEnd) {
         if (keyStart == -1 || keyEnd == -1 || keyEnd == arg.length() - 1 || keyEnd
                 + keyStart == 1 || arg.endsWith("-")) {
             throw new IllegalArgumentException("неправильный шаблон ключ-значение");
