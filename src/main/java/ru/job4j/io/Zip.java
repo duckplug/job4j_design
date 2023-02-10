@@ -36,7 +36,7 @@ public class Zip {
             throw new IllegalArgumentException("Ошибка в количестве аргументов");
         }
         ArgsName argsname = ArgsName.of(args);
-        List<Path> list =   Search.search(Paths.get(argsname.get("d")), p -> p.toFile().getName().endsWith(argsname.get("e")));
+        List<Path> list =   Search.search(Paths.get(argsname.get("d")), p -> !p.toFile().getName().endsWith(argsname.get("e")));
         File file  = new File(argsname.get("d"));
         if (!file.isDirectory()) {
             throw new IllegalArgumentException("Директория - " + args[0] + " не существует");
