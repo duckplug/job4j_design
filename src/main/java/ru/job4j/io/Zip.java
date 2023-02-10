@@ -3,14 +3,11 @@ package ru.job4j.io;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class Zip {
-
-    public void packFiles(List<Path> sources, File target) {
+public class Zip {    public void packFiles(List<Path> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (Path file : sources) {
                 zip.putNextEntry(new ZipEntry(file.toString()));
@@ -49,6 +46,5 @@ public class Zip {
         validateArgs(args);
         Zip zip = new Zip();
         zip.packFiles(validateArgs(args), new File(argsName.get("o")));
-
     }
 }
