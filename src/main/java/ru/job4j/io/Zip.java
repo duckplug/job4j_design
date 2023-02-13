@@ -25,7 +25,13 @@ public class Zip {
         ArgsName argsname = ArgsName.of(args);
         File file  = new File(argsname.get("d"));
         if (!file.isDirectory()) {
-            throw new IllegalArgumentException("Директория - " + args[0] + " не существует");
+            throw new IllegalArgumentException("Директория не существует - " + argsname.get("d"));
+        }
+        if (!argsname.get("e").startsWith(".") && argsname.get("e").length() > 1) {
+            throw new IllegalArgumentException("Ошибка расширения - " + argsname.get("e"));
+        }
+        if (!(argsname.get("o").endsWith(".zip") && argsname.get("o").length() > 4)) {
+            throw new IllegalArgumentException("ошибка в создании архива - " + argsname.get("o"));
         }
     }
 
