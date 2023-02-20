@@ -19,27 +19,33 @@ public class ConsoleChat {
     }
 
     public void run() {
+        List<String> phrases = readPhrases();
+        List<String> logs = new ArrayList<>();
         System.out.println("Введите фразу");
         Scanner scan = new Scanner(System.in);
         String str = scan.nextLine();
-        if (str.equalsIgnoreCase(STOP)) {
-            System.out.println("жду продолжения");
-            while (!scan.nextLine().equalsIgnoreCase(CONTINUE)) {
-                System.out.println("Продолжим?");
+        logs.add(str);
+        boolean checkStop;
+        while (!str.equalsIgnoreCase(OUT)) {
+            if (str.equalsIgnoreCase(STOP)) {
+                checkStop = true;
+                while (checkStop) {
+                    str = scan.nextLine();
+                    logs.add(str);
+                    if (str.equalsIgnoreCase(CONTINUE) || str.equalsIgnoreCase(OUT)) {
+                        checkStop = false;
+                    }
+                }
             }
-            run();
-        } else if (str.length() == 0) {
-            System.out.println("Введите слово-фразу или напишите \"закончить\"");
-            run();
-        } else if (str.equalsIgnoreCase(CONTINUE)) {
-            System.out.println(readPhrases().get(new Random().nextInt(10)));
-            run();
-        } else if (str.equalsIgnoreCase(OUT)) {
-            System.out.println("До встречи!");
-        } else {
-            System.out.println(readPhrases().get(new Random().nextInt(10)));
-            run();
+            if (!str.equalsIgnoreCase(OUT)) {
+                str = phrases.get(new Random().nextInt(phrases.size()));
+                System.out.println(str);
+                logs.add(str);
+                str = scan.nextLine();
+                logs.add(str);
+            }
         }
+        saveLog(logs);
     }
 
     private List<String> readPhrases() {
@@ -55,7 +61,7 @@ public class ConsoleChat {
     private void saveLog(List<String> log) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(path, true))) {
             for (String str : log) {
-                pw.print(str);
+                pw.println(str);
             }
         } catch (IOException e) {
             e.printStackTrace();
