@@ -26,18 +26,18 @@ public class ConsoleChat {
         String str = scan.nextLine();
         logs.add(str);
         boolean checkStop;
-        while (!str.equalsIgnoreCase(OUT)) {
-            if (str.equalsIgnoreCase(STOP)) {
+        while (!OUT.equalsIgnoreCase(str)) {
+            if (STOP.equalsIgnoreCase(str)) {
                 checkStop = true;
                 while (checkStop) {
                     str = scan.nextLine();
                     logs.add(str);
-                    if (str.equalsIgnoreCase(CONTINUE) || str.equalsIgnoreCase(OUT)) {
+                    if (CONTINUE.equalsIgnoreCase(str) || OUT.equalsIgnoreCase(str)) {
                         checkStop = false;
                     }
                 }
             }
-            if (!str.equalsIgnoreCase(OUT)) {
+            if (!OUT.equalsIgnoreCase(str)) {
                 str = phrases.get(new Random().nextInt(phrases.size()));
                 System.out.println(str);
                 logs.add(str);
@@ -51,7 +51,7 @@ public class ConsoleChat {
     private List<String> readPhrases() {
         List<String> list = new ArrayList<>();
         try (BufferedReader read = new BufferedReader(new FileReader(botAnswers))) {
-            read.lines().map(s -> s + System.lineSeparator()).forEach(list::add);
+            read.lines().forEach(list::add);
         } catch (IOException e) {
             e.printStackTrace();
         }
