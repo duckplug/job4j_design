@@ -4,12 +4,9 @@ import ru.job4j.io.ArgsName;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CSVReader {
-    public static void handle(ArgsName argsName) throws Exception {
-        ArrayList<String> list = new ArrayList<>(10);
+    public static void handle(ArgsName argsName) throws IOException {
         var scanner = new Scanner(new FileReader(argsName.get("path")));
         /**
          * разбиваем на отдельные значения фильтр
@@ -18,29 +15,64 @@ public class CSVReader {
         /**
          * Считываем первую строку в массив
          */
-         String[] firstLine = scanner.next().split(";");
+        String[] firstLine = scanner.next().split(argsName.get("delimiter"));
         /**
          * Создаем лист в котором будут позиции столбцов согласно фильтру;
          * Заполняем его номерами ячеек
-         *
-         * !!!! Объект из массива filters не равен объекту из массива firstLine !!!!!
          */
         ArrayList<Integer> position = new ArrayList<>();
         for (int i = 0; i < filters.length; i++) {
             for (int j = 0; j < firstLine.length; j++) {
                 if (filters[i].equals(firstLine[j])) {
-                   position.add(j);
+                    position.add(j);
                 }
             }
         }
-
-        while (scanner.hasNext()) {
-           var scan = scanner.next();
-            list.add(scan);
+        /**
+         * Проверка источника вывода данных;
+         */
+        if (argsName.get("out").equals("stdout")) {
+            /**
+             * Блок вывода данных в консоль
+             */
+            StringJoiner sjFilters = new StringJoiner(argsName.get("delimiter"));
+            for (String s : filters) {
+                sjFilters.add(s);
+            }
+            System.out.println(sjFilters);
+            while (scanner.hasNext()) {
+                StringJoiner sjStd = new StringJoiner(argsName.get("delimiter"));
+                String[] next = scanner.next().split(argsName.get("delimiter"));
+                for (Integer i : position) {
+                    sjStd.add(next[i]);
+                }
+                System.out.println(sjStd);
+            }
+            /**
+             * Блок записи данных в файл
+             */
+        } else {
+            try (FileWriter out = new FileWriter("./data/result.cvs")) {
+                StringJoiner sj = new StringJoiner(argsName.get("delimiter"));
+                for (String s : filters) {
+                    sj.add(s);
+                }
+                out.write(sj.toString());
+                out.write(System.lineSeparator());
+                while (scanner.hasNext()) {
+                    StringJoiner sjFile = new StringJoiner(argsName.get("delimiter"));
+                    String[] next = scanner.next().split(argsName.get("delimiter"));
+                    for (Integer i : position) {
+                        sjFile.add(next[i]);
+                    }
+                    out.write(sjFile.toString());
+                    out.write(System.lineSeparator());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println(list);
     }
-
     public static void main(String[] args) throws Exception {
         ArgsName argsName = ArgsName.of(args);
         CSVReader.handle(argsName);
