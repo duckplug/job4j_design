@@ -15,7 +15,7 @@ class CSVReaderTest {
     void whenFilterTwoColumns(@TempDir Path folder) throws Exception {
         String data = String.join(
                 System.lineSeparator(),
-                "name;age;last name;education",
+                "name;age;last_name;education",
                 "Tom;20;Smith;Bachelor",
                 "Jack;25;Johnson;Undergraduate",
                 "William;30;Brown;Secondary special"
@@ -44,7 +44,7 @@ class CSVReaderTest {
                 "name,age,last_name,education",
                 "Tom,20,Smith,Bachelor",
                 "Jack,25,Johnson,Undergraduate",
-                "William,30,Brown,Secondary_special"
+                "William,30,Brown,Secondary special"
         );
         File file = folder.resolve("source.csv").toFile();
         File target = folder.resolve("target.csv").toFile();
@@ -58,7 +58,7 @@ class CSVReaderTest {
                 "education,age,last_name",
                 "Bachelor,20,Smith",
                 "Undergraduate,25,Johnson",
-                "Secondary_special,30,Brown"
+                "Secondary special,30,Brown"
         ).concat(System.lineSeparator());
         CSVReader.handle(argsName);
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);

@@ -6,16 +6,27 @@ import java.io.*;
 import java.util.*;
 
 public class CSVReader {
-    public static void handle(ArgsName argsName) throws IOException {
-        var scanner = new Scanner(new FileReader(argsName.get("path")));
+    public static void handle(ArgsName argsName) {
         /**
-         * разбиваем на отдельные значения фильтр
+         * Валидация параметров (надо сделать)
          */
-        String[] filters = argsName.get("filter").split(",");
-        /**
-         * Считываем первую строку в массив
-         */
-        String[] firstLine = scanner.next().split(argsName.get("delimiter"));
+
+        String[] firstLine = new String[100];
+            /**
+             * разбиваем на отдельные значения фильтр
+             */
+            String[] filters = argsName.get("filter").split(",");
+            /**
+             * Считываем первую строку в массив
+             */
+
+            try (var scanner = new Scanner(new FileReader(argsName.get("path")))) {
+                firstLine = scanner.next().split(argsName.get("delimiter"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         /**
          * Создаем лист в котором будут позиции столбцов согласно фильтру;
          * Заполняем его номерами ячеек
@@ -39,26 +50,29 @@ public class CSVReader {
             for (String s : filters) {
                 sjFilters.add(s);
             }
-            System.out.println(sjFilters);
-            while (scanner.hasNext()) {
-                StringJoiner sjStd = new StringJoiner(argsName.get("delimiter"));
-                String[] next = scanner.next().split(argsName.get("delimiter"));
-                for (Integer i : position) {
-                    sjStd.add(next[i]);
+
+            try (var scanner = new Scanner(new FileReader(argsName.get("path")))) {
+                while (scanner.hasNext()) {
+                    StringJoiner sjStd = new StringJoiner(argsName.get("delimiter"));
+                    String[] next = scanner.next().split(argsName.get("delimiter"));
+                    for (Integer i : position) {
+                        sjStd.add(next[i]);
+                    }
+                    System.out.println(sjStd);
                 }
-                System.out.println(sjStd);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             /**
              * Блок записи данных в файл
              */
         } else {
-            try (FileWriter out = new FileWriter("./data/result.cvs")) {
+            try (FileWriter out = new FileWriter(argsName.get("out"))) {
                 StringJoiner sj = new StringJoiner(argsName.get("delimiter"));
+                var scanner = new Scanner(new FileReader(argsName.get("path")));
                 for (String s : filters) {
                     sj.add(s);
                 }
-                out.write(sj.toString());
-                out.write(System.lineSeparator());
                 while (scanner.hasNext()) {
                     StringJoiner sjFile = new StringJoiner(argsName.get("delimiter"));
                     String[] next = scanner.next().split(argsName.get("delimiter"));
@@ -68,7 +82,7 @@ public class CSVReader {
                     out.write(sjFile.toString());
                     out.write(System.lineSeparator());
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
