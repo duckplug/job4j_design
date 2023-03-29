@@ -56,9 +56,8 @@ public class CSVReader {
         if (("stdout").equals(argsName.get("out"))) {
             System.out.println(rsl);
         } else {
-            try (FileWriter out = new FileWriter(argsName.get("out"))) {
-                out.write(rsl.toString());
-                out.write(System.lineSeparator());
+            try (PrintWriter out = new PrintWriter(argsName.get("out"))) {
+                out.println(rsl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
