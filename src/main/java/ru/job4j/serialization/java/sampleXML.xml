@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<carsXML sportCar="false" maxSpeed="200" model="SL">
+    <ids>
+        <id>1</id>
+        <id>2</id>
+        <id>C</id>
+    </ids>
+    <engine model="forSL" capacity="2.2"/>
+</carsXML>
