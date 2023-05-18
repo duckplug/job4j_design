@@ -1,6 +1,7 @@
 package ru.job4j.serialization.java;
 
 public class EngineCarXML {
+
     private final String modelEng;
     private final double capacity;
 

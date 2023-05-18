@@ -3,7 +3,6 @@ package ru.job4j.serialization.java;
 import java.util.Arrays;
 
 public class CarsXML {
-
     private final boolean sportCar;
     private final int maxSpeed;
     private final String model;
