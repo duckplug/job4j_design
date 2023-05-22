@@ -1,14 +1,30 @@
 package ru.job4j.serialization.java;
 
 import java.util.Arrays;
+import javax.xml.bind.annotation.*;
+
+
+@XmlRootElement(name = "carXML")
+@XmlAccessorType(XmlAccessType.FIELD)
 
 public class CarsXML {
 
-    private final boolean sportCar;
-    private final int maxSpeed;
-    private final String model;
-    private final String[] id;
-    private final EngineCarXML engine;
+    @XmlAttribute
+    private boolean sportCar;
+
+    @XmlAttribute
+    private int maxSpeed;
+
+    @XmlAttribute
+    private String model;
+
+    @XmlElementWrapper(name = "CarId")
+    @XmlElement(name = "id")
+    private  String[] id;
+    private  EngineCarXML engine;
+
+    public CarsXML() {
+    }
 
     public CarsXML(boolean sportCar, int maxSpeed, String model, String[] id, EngineCarXML engine) {
         this.sportCar = sportCar;
@@ -17,10 +33,8 @@ public class CarsXML {
         this.id = id;
         this.engine = engine;
     }
-
     @Override
     public String toString() {
         return "CarsJson{" + "sportCar=" + sportCar + ", maxSpeed=" + maxSpeed + ", model='" + model + '\'' + ", id=" + Arrays.toString(id) + ", engine=" + engine + '}';
     }
 }
-
