@@ -9,6 +9,14 @@ public class EngineCarJson {
         this.capacity = capacity;
     }
 
+    public String getModelEng() {
+        return modelEng;
+    }
+
+    public double getCapacity() {
+        return capacity;
+    }
+
     @Override
     public String toString() {
         return "EngineCarJson{" + "model='" + modelEng + '\'' + ", capacity=" + capacity + '}';

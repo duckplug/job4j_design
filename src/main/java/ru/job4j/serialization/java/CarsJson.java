@@ -17,6 +17,26 @@ public class CarsJson {
         this.engine = engine;
     }
 
+    public boolean isSportCar() {
+        return sportCar;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String[] getId() {
+        return id;
+    }
+
+    public EngineCarJson getEngine() {
+        return engine;
+    }
+
     @Override
     public String toString() {
         return "CarsJson{" + "sportCar=" + sportCar + ", maxSpeed=" + maxSpeed + ", model='" + model + '\'' + ", id=" + Arrays.toString(id) + ", engine=" + engine + '}';
