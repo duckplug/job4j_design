@@ -11,13 +11,10 @@ import java.util.regex.Pattern;
 
 public class Main {
     private List<Path> list = new ArrayList<>();
-
-    public Main() {
-    }
-
     /**
      * Валидация входных параметров
      * используется класс ArgsName
+     *
      * @see ArgsName
      */
     private void finder(String[] arg) throws IOException {
@@ -26,31 +23,38 @@ public class Main {
         String type = argsName.get("t");
         String logFile = argsName.get("o");
         String sign = argsName.get("n");
+        validation(start, type, logFile);
+        Pattern pattern = Pattern.compile(mask(sign));
+        list.addAll(filler(start, type, pattern, sign));
+        outLog(logFile);
+    }
 
+    private void validation(Path start, String type, String logFile) {
         if (!start.toFile().isDirectory()) {
             throw new IllegalArgumentException("Директория начала поиска не существует");
         }
         if (!(type.equals("mask") || type.equals("name") || type.equals("regex"))) {
-            throw new IllegalArgumentException("Тип поиск определен некорректно");
+            throw new IllegalArgumentException("Тип поиска определен некорректно");
         }
         if (!logFile.endsWith(".txt")) {
             throw new IllegalArgumentException("Ошибка файла записи");
         }
-        /**
-         * Не ищет файлы вне пакета !!!
-         */
-        if (type.equals("mask")) {
-            Pattern pattern = Pattern.compile(mask(sign));
-            list.addAll(Search.search(start, p -> pattern.matcher(p.toFile().getName()).matches()));
+    }
+
+    private List<Path> filler(Path start, String type, Pattern pattern, String sign) throws IOException {
+        List<Path> pathList = new ArrayList<>();
+        if (type.equals("mask") || type.equals("regex")) {
+            pathList.addAll(Search.search(start, p -> pattern.matcher(p.toFile().getName()).matches()));
         } else if (type.equals("name")) {
-            list.addAll(Search.search(start, p -> p.toFile().getName().equals(sign)));
-        } else if (type.equals("regex")) {
-            Pattern pattern = Pattern.compile(sign);
-            list.addAll(Search.search(start, p -> pattern.matcher(p.toFile().getName()).matches()));
+            pathList.addAll(Search.search(start, p -> p.toFile().getName().equals(sign)));
         }
+        return  pathList;
+    }
+
+    public void outLog(String path) {
         try (PrintWriter out = new PrintWriter(
                 new BufferedOutputStream(
-                        new FileOutputStream(logFile)
+                        new FileOutputStream(path)
                 ))) {
             for (Path str : list) {
                 out.println(str);
@@ -59,19 +63,16 @@ public class Main {
             e.printStackTrace();
         }
     }
-
     /**
      * В методе mask() мы передаем маску имени файла "n", а на выходе получаем регулярное выражение
      */
     private static String mask(String name) {
-        String replaceDot = name.replace(".", "\\.");
-        String replaceQ =  replaceDot.replace("?", "\\w?");
-        String replaceS = replaceQ.replace("*", "\\w+");
-        return replaceS;
+        return name.replace(".", "\\.").replace("?", "\\w?").replace("*", "\\w+");
     }
 
     public static void main(String[] args) throws IOException {
         Main first = new Main();
         first.finder(args);
+
     }
 }
