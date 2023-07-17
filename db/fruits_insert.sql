@@ -1,0 +1,1 @@
+insert into fruits (name, color, weight, country) values('lemon', 'yellow', 0.1, 'China');
