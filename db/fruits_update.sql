@@ -1,1 +1,0 @@
-update fruits set weight = 0.2;
