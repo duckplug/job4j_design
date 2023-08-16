@@ -24,6 +24,8 @@ create table items(
 id serial primary key,
 number varchar(255),
 master int references users(id),
+item_categorie int references items(id),
+item_state int references items(id),
 item text
 );
 
@@ -41,13 +43,11 @@ file text
 
 create table categories(
 id serial primary key,
-item_categorie int references items(id),
 categorie varchar(255)
 );
 
 create table states(
 id serial primary key,
-item_state int references items(id),
 state varchar(255)
 );
 
