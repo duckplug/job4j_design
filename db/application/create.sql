@@ -35,6 +35,7 @@ id serial primary key,
 number varchar(255),
 item_categorie int references categories(id),
 item_state int references states(id),
+item_users int references users(id),
 item text
 );
 
