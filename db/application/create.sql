@@ -50,6 +50,3 @@ id serial primary key,
 item_attach int references items(id),
 file text
 );
-
-	
-	

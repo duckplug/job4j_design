@@ -1,4 +1,5 @@
 insert into roles(role) values('Admin');
+
 insert into categories(categorie) values('main');
 insert into states(state) values('in work');
 insert into rules(rule) values('Create items');
