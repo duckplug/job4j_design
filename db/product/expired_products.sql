@@ -1,0 +1,1 @@
+select name from product where expired_date < current_date;
