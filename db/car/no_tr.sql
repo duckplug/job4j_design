@@ -1,0 +1,1 @@
+select t.name from car_transmissions t left join cars c on t.id = c.transmission_id where c.name is null;

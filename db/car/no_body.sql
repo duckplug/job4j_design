@@ -1,0 +1,1 @@
+select b.name from car_bodies b left join cars c on c.body_id = b.id where c.name is null;
