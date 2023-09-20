@@ -20,19 +20,18 @@ execute procedure taxed();
 
 
 --Налог на стоймость до вставки
+create or replace function tax_after_row ()
+	returns trigger as
+$$
+BEGIN
+	new.price = new.price * 1.3;
+	return new;
+END;
+$$
+LANGUAGE 'plpgsql';
+
 create trigger tax_after
 before insert on products
 for each row
 execute function tax_after_row();
 
-create or replace function tax_after_row ()
-	returns trigger as
-$$
-BEGIN
-	update products
-	set price = price * 1.3
-	where id = new.id;
-	return new;
-END;
-$$
-LANGUAGE 'plpgsql';
