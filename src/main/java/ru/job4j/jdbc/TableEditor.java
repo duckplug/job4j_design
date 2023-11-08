@@ -1,7 +1,6 @@
 package ru.job4j.jdbc;
 
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -19,18 +18,30 @@ public class TableEditor implements AutoCloseable {
 
     private void initConnection() throws Exception {
         Class.forName("org.postgresql.Driver");
-        DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("login"), properties.getProperty("password"));
+        connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
     }
 
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
-        Path path = Path.of("./data/err.txt");
         try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
             prop.load(in);
         }
-            TableEditor tableEd = new TableEditor(prop);
-            tableEd.createTable("NewTable");
+        TableEditor tableEd = new TableEditor(prop);
 
+        tableEd.createTable("NewTable");
+        System.out.println(tableEd.getTableScheme("NewTable"));
+
+        tableEd.addColumn("NewTable", "newColumn", "text");
+        System.out.println(tableEd.getTableScheme("NewTable"));
+
+        tableEd.dropColumn("NewTable", "newColumn");
+        System.out.println(tableEd.getTableScheme("NewTable"));
+
+        tableEd.renameColumn("NewTable", "name", "newName");
+        System.out.println(tableEd.getTableScheme("NewTable"));
+
+        tableEd.dropTable("NewTable");
+        System.out.println(tableEd.getTableScheme("NewTable"));
     }
 
     public void createTable(String tableName) throws Exception {
@@ -56,7 +67,7 @@ public class TableEditor implements AutoCloseable {
 
     public void addColumn(String tableName, String columnName, String type) throws Exception {
         try (Statement stat = connection.createStatement()) {
-            String sql = String.format("ALTER TABLE %s ADD COLUMN %s %s",
+            String sql = String.format("ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s %s",
                     tableName,
                     columnName,
                     type);
@@ -82,7 +93,6 @@ public class TableEditor implements AutoCloseable {
             stat.execute(sql);
         }
     }
-
 
     public String getTableScheme(String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
