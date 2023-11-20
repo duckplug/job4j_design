@@ -10,6 +10,10 @@ public class ConnectionDemo {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
           Class.forName("org.postgresql.Driver");
+          /**
+           * Пробный комит.
+           *
+           */
 
         Config conf = new Config("D:\\JP\\job4j_design\\data\\app.properties");
         conf.load();
